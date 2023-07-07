@@ -1,5 +1,32 @@
+Comandos:
+    Abrir Cypress:         npx cypress open
+    Abrir Site:            npm run dev
+
 Cenários à se pensar em um teste de formulário:
     1 - Apresenta mensagem de sucesso se o usuário se cadastrar com sucesso ?
     2 - Apresenta mensagem de erro se o usuário não se cadastrar com sucesso ?
     3 - Se o usuário informar um e-mail já cadastrado ?
     4 - Se o campo ficar em branco ?
+
+- Explicit Waits
+    Even though Cypress is incredibly smart in handling automatic waiting, there are times when you explicitly
+want to wait for something. For example, you may want to wait on a specific network request to finish before
+moving forward. The best way to handle these waits is to wait on aliases. Anything that can be aliased can be
+waited upon, like elements, intercepts, requests, etc.
+
+describe("User Sign-up and Login", () => {
+  beforeEach(() => {
+    cy.request("POST", "/users").as("signup") // creating the signup alias
+  })
+
+  it("should allow a visitor to sign-up, login, and logout", () => {
+    cy.visit("/")
+    // ...
+
+    cy.wait("@signup") // waiting upon the signup alias
+
+    // ...
+  })
+})
+
+The Real World App is full of examples of waiting upon aliases, and we go over several examples within the "Real World Examples" section later on: https://github.com/LeoHernandezQA/cypress-realworld-app
