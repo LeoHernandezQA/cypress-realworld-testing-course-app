@@ -25,9 +25,11 @@
     "react-hook-form": "^7.27.1",
     "react-slick": "^0.28.1",
     "rehype-slug": "^5.0.1",
-    "xstate": "^4.30.5"
+    "xstate": "^4.30.5",
+    "type": "module"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@types/chai": "^4.3.0",
     "@types/lodash": "^4.14.179",
     "@types/mocha": "^9.1.0",
