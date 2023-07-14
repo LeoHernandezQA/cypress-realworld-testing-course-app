@@ -30,3 +30,73 @@ describe("User Sign-up and Login", () => {
 })
 
 The Real World App is full of examples of waiting upon aliases, and we go over several examples within the "Real World Examples" section later on: https://github.com/LeoHernandezQA/cypress-realworld-app
+
+
+
+
+
+Cypress Methods You Need to Know
+Cypress has a lot of methods & commands. While our documentation covers them in great detail, it can be overwhelming trying to learn them all. This lesson will highlight some of the most important methods that we think you should know. These are not methods you will use all of the time, but simply knowing they exist will be incredibly helpful as you begin to write more complicated tests.
+
+.its()
+Get a property's value on the previously yielded subject.
+
+.its() is a handy method when you want to get the property off of something. For example if you want to make an assertion against an array.
+
+cy.wrap(["Wai Yan", "Yu"]).its(1).should("eq", "Yu") // true
+Or maybe you want to get the property from an object and make an assertion.
+
+cy.wrap({ age: 52 }).its("age").should("eq", 52) // true
+In the example in the Invoke section below, we are using .its() to grab the results from the @publicTransactions alias, which is an intercepted network request.
+
+it("first five items belong to contacts in public feed", () => {
+  // ...
+
+  cy.wait("@publicTransactions")
+  .its("response.body.results")
+  .invoke("slice", 0, 5)
+By using .its() we can get access to the results array which allows us to call .invoke() to perform .slice() on it.
+
+.its() is a very handy method and will become a useful tool in your "Cypress tool belt." You can find out more about it in our API docs page.
+
+.invoke()
+Invoke a function on the previously yielded subject.
+
+Cypress is just JavaScript, and the cy.invoke() method allows you to call JS functions on JS data types.
+
+In the example below, we are invoking the Array.slice() function on the response data returned from an aliased intercept.
+
+beforeEach(() => {
+  cy.intercept("GET", "/users").as("users")
+})
+
+it("slices the users returned from /users endpoint", () => {
+  cy.wait("@users").its("response.body.results").invoke("slice", 0, 5)
+  // ...
+})
+Check out our API docs page for more info on cy.intercept()
+
+.request()
+Make an HTTP request.
+
+.request() is a helpful method anytime you need to make an HTTP request within your tests and perform expectations against it.
+
+cy.request("POST", "http://localhost:8888/users/admin", { name: "Jane" }).then(
+  (response) => {
+    // response.body is automatically serialized into JSON
+    expect(response.body).to.have.property("name", "Jane") // true
+  }
+)
+We make extensive use of cy.request() in our API tests within the Real World App (RWA).
+
+.within()
+Scopes all subsequent Cypress commands to within an element. Useful when working within a particular group of elements such as a <form>.
+
+When you are working with elements, you need to drill down into its children, grandchildren, etc. You can use .within() to limit the scope of Cypress commands to within a specific element. For example.
+
+it("ensures the section lesson exists", () => {
+  cy.getBySel("section-steps").within(() => {
+    cy.getBySel("lesson-complete-0").should("exist")
+  })
+})
+You can find out more about .within() on our API docs page.

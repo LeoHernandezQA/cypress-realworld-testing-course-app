@@ -12,6 +12,8 @@ describe('Ver tela de login', () => {
 
    cy.wait('@OneRegisterResponse')
 
+   /*https://demhcnslkt3b9.cloudfront.net/api/price/authentication/token*/
+
     /*cy.intercept("https://demhcnslkt3b9.cloudfront.net/api/price/preorder/search", (req) => {
       req.continue(res => {
         res.body.data.data = []
