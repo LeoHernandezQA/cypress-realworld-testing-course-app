@@ -38,9 +38,18 @@
 declare namespace Cypress {
     interface Chainable {
         getByData(dataTestAttribute: string): Chainable<JQuery<HTMLElement>>
+        login(email: string, password: string): Chainable<void>
     }
 }
 
+// Elements selector
 Cypress.Commands.add("getByData", (selector) => {
     return cy.get(`[data-test=${selector}]`)
 })
+
+// Login function
+Cypress.Commands.add('login', (email, password) => { 
+    cy.get("body > div:nth-child(6) > div > div.ant-modal-wrap > div > div.ant-modal-content > div > div > input:nth-child(2)").type(email)
+    cy.get("body > div:nth-child(6) > div > div.ant-modal-wrap > div > div.ant-modal-content > div > div > input:nth-child(3)").type(password)
+    cy.get("body > div:nth-child(6) > div > div.ant-modal-wrap > div > div.ant-modal-content > div > div > div > button").should('be.enabled').click()
+ })
