@@ -2,14 +2,14 @@ import usersPSC from '../../fixtures/usersPSC.json'
 
 describe('Ver tela de login', () => {
   beforeEach(() => {
-    cy.visit('/')
+    cy.visit(Cypress.env('baseUrl'))
 
     cy.intercept("https://demhcnslkt3b9.cloudfront.net/api/price/preorder/search",
       { fixture: 'preOrder' })
       .as("OneRegisterResponse")
 
     cy.login(usersPSC.username, usersPSC.password)
-    
+
     // cy.fixture("usersPSC").then((users) => {
     //   cy.login(users.username, users.password)
     // })
